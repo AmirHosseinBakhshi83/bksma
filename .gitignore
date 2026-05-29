@@ -8,14 +8,6 @@ env/
 .venv/
 .env
 
-# Django
-db.sqlite3
-*.log
-*.pot
-*.pyc
-local_settings.py
-media/
-staticfiles/
 
 # IDE
 .vscode/
