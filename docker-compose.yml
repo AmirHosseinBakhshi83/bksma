@@ -1,0 +1,10 @@
+services:
+  web:
+    build: .
+    ports:
+      - "8000:8000"
+    environment:
+      - SECRET_KEY=ladflsdfp$$^3q4837423848@W@!E2eo12uwqFRQcewqVMewqcr,'x23xedcw,[el,we(xncdfojdw
+      - DEBUG=False
+      - ALLOWED_HOSTS=bksam.com,www.bksam.com
+    restart: unless-stopped
