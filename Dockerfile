@@ -1,29 +1,32 @@
-# Use slim Python image for smaller size
-FROM python:3.11
+# Use the official Python runtime image
+FROM python:3.11  
 
-# Prevent Python from writing .pyc files and buffer logs
-ENV PYTHONDONTWRITEBYTECODE=1
-ENV PYTHONUNBUFFERED=1
+# Create the app directory
+RUN mkdir /app
 
-# Set working directory
+# Set the working directory inside the container
 WORKDIR /app
 
-# Copy requirements first (for better caching)
-COPY requirements.txt /app/
+# Set environment variables 
+# Prevents Python from writing pyc files to disk
+ENV PYTHONDONTWRITEBYTECODE=1
+#Prevents Python from buffering stdout and stderr
+ENV PYTHONUNBUFFERED=1 
+
+# Upgrade pip
+RUN pip install --upgrade pip 
+
+# Copy the Django project  and install dependencies
+COPY requirements.txt  /app/
+
+# run this command to install all dependencies 
 RUN pip install --no-cache-dir -r requirements.txt
 
-# Copy the entire project
+# Copy the Django project to the container
 COPY . /app/
 
-# Create non-root user for security
-RUN adduser --disabled-password appuser
-USER appuser
-
-# Collect static files
-RUN python manage.py collectstatic --noinput
-
-# Expose the port
+# Expose the Django port
 EXPOSE 8000
 
-# Run with Gunicorn (production server)
-CMD ["gunicorn", "--bind", "0.0.0.0:8000", "yourproject.wsgi:application"]
+# Run Django’s development server
+CMD ["python", "manage.py", "runserver", "0.0.0.0:8000"]
