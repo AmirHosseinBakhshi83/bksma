@@ -55,7 +55,6 @@ INSTALLED_APPS = [
     "website",
     "report",
     "persiantools",
-    "admin_honeypot",
 ]
 
 MIDDLEWARE = [
